@@ -1,6 +1,6 @@
 import { planners } from '@/data/mock';
 import { notFound } from 'next/navigation';
-import { Star, MapPin, CheckCircle, Award, CalendarDays, ChevronRight } from 'lucide-react';
+import { Star, MapPin, CheckCircle, Award, CalendarDays, ChevronRight, Video, Camera } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -15,9 +15,8 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
   return (
     <main className="min-h-screen bg-[#0B0B0B] pb-24">
       {/* Hero Banner */}
-      <div className="relative h-[60vh] min-h-[400px] max-h-[600px] w-full bg-[#111]">
-        {/* Placeholder for planner hero image */}
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('https://source.unsplash.com/random/1920x1080/?luxury,event,${planner.id}')` }} />
+      <div className="relative h-[60vh] min-h-[400px] max-h-[600px] w-full bg-[#111] group">
+        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style={{ backgroundImage: `url('${planner.image}')` }} />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-[#0B0B0B]/50 to-transparent" />
         
         {/* Banner Content */}
@@ -40,10 +39,10 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
             
             <div className="flex gap-4">
               <Link 
-                href="/booking"
-                className="px-8 py-4 bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-black font-bold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-shadow text-center"
+                href={`/booking?plannerId=${planner.id}`}
+                className="px-8 py-4 bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-black font-bold rounded-full hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] transition-all transform hover:scale-105 text-center flex items-center gap-2"
               >
-                Book Appointment
+                Book This Planner <ChevronRight className="w-5 h-5" />
               </Link>
             </div>
           </div>
@@ -54,7 +53,7 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
           {/* Main Content Area (Left 2/3) */}
-          <div className="lg:col-span-2 space-y-16">
+          <div className="lg:col-span-2 space-y-20">
             
             {/* About Section */}
             <section>
@@ -68,13 +67,13 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
             </section>
 
             {/* Specializations & Awards */}
-            <section className="grid md:grid-cols-2 gap-8">
+            <section className="grid md:grid-cols-2 gap-8 bg-white/5 border border-white/10 p-8 rounded-3xl">
               <div>
-                <h3 className="text-xl font-serif font-bold text-white mb-4">Specializations</h3>
+                <h3 className="text-xl font-serif font-bold text-[#D4AF37] mb-4">Specializations</h3>
                 <ul className="space-y-3">
                   {planner.specializations.map((spec, i) => (
-                    <li key={i} className="flex items-center gap-3 text-gray-300">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+                    <li key={i} className="flex items-center gap-3 text-white">
+                      <div className="w-2 h-2 rounded-full bg-[#6A38FF]" />
                       {spec}
                     </li>
                   ))}
@@ -83,10 +82,10 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
               
               {planner.awards && planner.awards.length > 0 && (
                 <div>
-                  <h3 className="text-xl font-serif font-bold text-white mb-4">Awards & Recognition</h3>
+                  <h3 className="text-xl font-serif font-bold text-[#D4AF37] mb-4">Awards & Recognition</h3>
                   <ul className="space-y-3">
                     {planner.awards.map((award, i) => (
-                      <li key={i} className="flex items-start gap-3 text-gray-300">
+                      <li key={i} className="flex items-start gap-3 text-white">
                         <Award className="w-5 h-5 text-[#D4AF37] shrink-0 mt-0.5" />
                         <span>{award}</span>
                       </li>
@@ -94,6 +93,88 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
                   </ul>
                 </div>
               )}
+            </section>
+
+            {/* Detailed Portfolio / Showcases */}
+            <section>
+              <h2 className="text-3xl font-serif font-bold text-white mb-8 flex items-center gap-3">
+                <Camera className="w-8 h-8 text-[#D4AF37]" /> Event Showcases
+              </h2>
+              
+              <div className="space-y-12">
+                {planner.portfolio.map((item, i) => (
+                  <div key={i} className="bg-black border border-white/10 rounded-3xl overflow-hidden group">
+                    <div className="grid md:grid-cols-2 gap-1">
+                      {item.images.slice(0, 2).map((img, idx) => (
+                        <div key={idx} className="relative h-64 md:h-80 overflow-hidden">
+                          <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url('${img}')` }} />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="p-8">
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <span className="text-[#6A38FF] text-sm font-bold uppercase tracking-wider mb-2 block">{item.category}</span>
+                          <h3 className="text-2xl font-serif font-bold text-white">{item.title}</h3>
+                        </div>
+                        <span className="px-4 py-1.5 bg-white/10 rounded-full text-xs text-gray-300 border border-white/20">
+                          {item.location}
+                        </span>
+                      </div>
+                      <p className="text-gray-400">{item.description}</p>
+                    </div>
+
+                    {/* Before & After if available */}
+                    {item.beforeAfterImages && item.beforeAfterImages.length > 0 && (
+                      <div className="border-t border-white/10 p-8 bg-[#0a0a0a]">
+                        <h4 className="text-[#D4AF37] font-semibold mb-6 uppercase tracking-widest text-sm">Transformation Showcase</h4>
+                        <div className="grid md:grid-cols-2 gap-4">
+                          <div className="relative rounded-xl overflow-hidden group/ba">
+                            <img src={item.beforeAfterImages[0].before} alt="Before" className="w-full h-48 object-cover" />
+                            <div className="absolute top-4 left-4 px-3 py-1 bg-black/70 backdrop-blur text-white text-xs font-bold rounded-md uppercase tracking-wider">Before</div>
+                          </div>
+                          <div className="relative rounded-xl overflow-hidden group/ba">
+                            <img src={item.beforeAfterImages[0].after} alt="After" className="w-full h-48 object-cover" />
+                            <div className="absolute top-4 left-4 px-3 py-1 bg-[#D4AF37]/90 backdrop-blur text-black text-xs font-bold rounded-md uppercase tracking-wider">After</div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Cinematic Highlights Video Section Placeholder */}
+            {planner.droneFootageAvailable && (
+              <section className="relative rounded-3xl overflow-hidden bg-[#111] p-12 text-center border border-white/10 group cursor-pointer">
+                <div className="absolute inset-0 bg-[url('https://source.unsplash.com/1920x1080/?drone,wedding,event')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity" />
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-20 h-20 bg-[#D4AF37]/20 backdrop-blur border border-[#D4AF37] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <Video className="w-8 h-8 text-[#D4AF37]" />
+                  </div>
+                  <h3 className="text-2xl font-serif font-bold text-white mb-2">Cinematic Highlights</h3>
+                  <p className="text-gray-300">Watch our breathtaking drone footage and event movies.</p>
+                </div>
+              </section>
+            )}
+
+            {/* Setup Process */}
+            <section>
+              <h2 className="text-2xl font-serif font-bold text-white mb-8 flex items-center gap-3">
+                Our Process
+                <div className="h-[1px] bg-gradient-to-r from-[#D4AF37]/50 to-transparent flex-grow" />
+              </h2>
+              <div className="flex flex-wrap gap-4">
+                {planner.setupProcess.map((step, i) => (
+                  <div key={i} className="flex items-center gap-4 bg-white/5 border border-white/10 px-6 py-4 rounded-full">
+                    <span className="w-8 h-8 rounded-full bg-[#D4AF37] text-black flex items-center justify-center font-bold">
+                      {i + 1}
+                    </span>
+                    <span className="text-white font-medium">{step}</span>
+                  </div>
+                ))}
+              </div>
             </section>
 
             {/* Packages */}
@@ -106,7 +187,7 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
                 {planner.packages.map((pkg, i) => (
                   <div key={i} className={`rounded-2xl p-6 ${pkg.popular ? 'bg-gradient-to-b from-[#1a1508] to-[#0B0B0B] border border-[#D4AF37]/50 relative shadow-[0_0_30px_rgba(212,175,55,0.1)]' : 'bg-white/5 border border-white/10'}`}>
                     {pkg.popular && (
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-black text-xs font-bold px-3 py-1 rounded-full">
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-black text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap shadow-lg">
                         MOST POPULAR
                       </div>
                     )}
@@ -133,49 +214,61 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
             <div className="sticky top-32 space-y-6">
               
               {/* Stats Card */}
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6">
-                <div className="flex items-center gap-4 mb-6 pb-6 border-b border-white/10">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-700 to-black overflow-hidden flex items-center justify-center border-2 border-[#D4AF37]">
-                    <span className="text-xl font-bold text-gray-500">{planner.ownerName.charAt(0)}</span>
+              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8">
+                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-white/10">
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#6A38FF] to-black overflow-hidden flex items-center justify-center border-2 border-[#D4AF37]">
+                    <span className="text-3xl font-bold text-white">{planner.ownerName.charAt(0)}</span>
                   </div>
                   <div>
-                    <h4 className="text-white font-medium">{planner.ownerName}</h4>
-                    <p className="text-sm text-gray-400">Founder & Lead Planner</p>
+                    <h4 className="text-white font-medium text-lg">{planner.ownerName}</h4>
+                    <p className="text-sm text-[#D4AF37]">Founder & Lead Planner</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-3 bg-black/30 rounded-xl border border-white/5">
-                    <div className="flex items-center justify-center gap-1 text-[#D4AF37] mb-1">
-                      <Star className="w-4 h-4 fill-current" />
-                      <span className="font-bold">{planner.rating}</span>
+                  <div className="text-center p-4 bg-black/40 rounded-2xl border border-white/5">
+                    <div className="flex items-center justify-center gap-1 text-[#D4AF37] mb-2">
+                      <Star className="w-5 h-5 fill-current" />
+                      <span className="text-xl font-bold">{planner.rating}</span>
                     </div>
-                    <div className="text-xs text-gray-500">{planner.reviewCount} Reviews</div>
+                    <div className="text-xs text-gray-400 uppercase tracking-widest">{planner.reviewCount} Reviews</div>
                   </div>
-                  <div className="text-center p-3 bg-black/30 rounded-xl border border-white/5">
-                    <div className="font-bold text-white mb-1">{planner.completedEvents}+</div>
-                    <div className="text-xs text-gray-500">Events Managed</div>
+                  <div className="text-center p-4 bg-black/40 rounded-2xl border border-white/5">
+                    <div className="text-2xl font-bold text-white mb-1">{planner.completedEvents}+</div>
+                    <div className="text-xs text-gray-400 uppercase tracking-widest">Events</div>
                   </div>
                 </div>
               </div>
 
+              {/* Themes Available */}
+              <div className="bg-black border border-white/10 rounded-3xl p-8">
+                <h4 className="font-serif font-bold text-white mb-6">Signature Themes</h4>
+                <div className="space-y-3">
+                  {planner.decorationThemes.map((theme, i) => (
+                    <div key={i} className="px-4 py-3 bg-white/5 rounded-xl text-gray-300 text-sm border border-white/5">
+                      {theme}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               {/* Quick Contact/Availability */}
-              <div className="bg-gradient-to-br from-[#120a24] to-[#0B0B0B] border border-[#6A38FF]/30 rounded-2xl p-6">
-                <h4 className="font-serif font-bold text-white mb-4 flex items-center gap-2">
-                  <CalendarDays className="w-5 h-5 text-[#6A38FF]" /> Next Available Dates
+              <div className="bg-gradient-to-br from-[#120a24] to-[#0B0B0B] border border-[#6A38FF]/30 rounded-3xl p-8">
+                <h4 className="font-serif font-bold text-white mb-6 flex items-center gap-2">
+                  <CalendarDays className="w-6 h-6 text-[#6A38FF]" /> Available Dates
                 </h4>
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-col gap-3 mb-8">
                   {planner.availableDates.slice(0, 4).map((date, i) => (
-                    <span key={i} className="px-3 py-1.5 bg-[#6A38FF]/20 border border-[#6A38FF]/30 rounded-md text-sm text-[#9D7DFF]">
-                      {new Date(date).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
-                    </span>
+                    <div key={i} className="px-4 py-3 bg-[#6A38FF]/10 border border-[#6A38FF]/30 rounded-xl text-center text-[#9D7DFF] font-medium">
+                      {new Date(date).toLocaleDateString('en-IN', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric' })}
+                    </div>
                   ))}
                 </div>
                 <Link 
-                  href="/booking"
-                  className="w-full flex items-center justify-between px-6 py-4 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white transition-colors"
+                  href={`/booking?plannerId=${planner.id}`}
+                  className="w-full flex items-center justify-between px-6 py-4 bg-gradient-to-r from-[#6A38FF] to-[#9D7DFF] rounded-xl text-white font-bold transition-all hover:shadow-[0_0_20px_rgba(106,56,255,0.4)]"
                 >
-                  <span className="font-medium">Check Full Calendar</span>
+                  <span>Request Booking</span>
                   <ChevronRight className="w-5 h-5" />
                 </Link>
               </div>

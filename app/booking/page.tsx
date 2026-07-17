@@ -1,197 +1,279 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle, Calendar as CalendarIcon, Users, MapPin, IndianRupee, ArrowRight } from 'lucide-react';
+import { CheckCircle, Calendar as CalendarIcon, Users, MapPin, IndianRupee, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { planners } from '@/data/mock';
 
-export default function BookingPage() {
+function BookingForm() {
+  const searchParams = useSearchParams();
+  const plannerId = searchParams.get('plannerId');
+  const selectedPlanner = plannerId ? planners.find(p => p.id === plannerId) : null;
+
   const [step, setStep] = useState(1);
   const totalSteps = 4;
 
-  const handleNext = () => setStep(prev => Math.min(prev + 1, totalSteps + 1)); // +1 for success screen
+  const handleNext = () => setStep(prev => Math.min(prev + 1, totalSteps + 1));
   const handlePrev = () => setStep(prev => Math.max(prev - 1, 1));
 
+  const bestMatches = planners.slice(0, 3).map((p, i) => ({
+    ...p,
+    matchScore: 98 - (i * 4) // Mock score
+  }));
+
   return (
-    <main className="min-h-screen bg-[#0B0B0B] pt-32 pb-24">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {step <= totalSteps ? (
-          <>
-            {/* Header & Progress */}
-            <div className="text-center mb-12">
-              <h1 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6">
-                Book Your <span className="text-gradient-gold">Event</span>
-              </h1>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      {step <= totalSteps ? (
+        <>
+          {/* Header & Progress */}
+          <div className="text-center mb-12">
+            {selectedPlanner ? (
+              <div className="mb-6 flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full overflow-hidden mb-4 border-2 border-[#D4AF37]">
+                  <img src={selectedPlanner.image} alt={selectedPlanner.company} className="w-full h-full object-cover" />
+                </div>
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#D4AF37]/10 text-[#D4AF37] rounded-full text-sm font-bold border border-[#D4AF37]/30">
+                  <ShieldCheck className="w-4 h-4" /> Direct Booking: {selectedPlanner.company}
+                </div>
+              </div>
+            ) : (
+              <div className="mb-6">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#6A38FF]/10 text-[#9D7DFF] rounded-full text-sm font-bold border border-[#6A38FF]/30">
+                  <Sparkles className="w-4 h-4" /> Smart Marketplace Booking
+                </div>
+              </div>
+            )}
+
+            <h1 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6">
+              {selectedPlanner ? 'Book Your Appointment' : 'Find Your Perfect Planner'}
+            </h1>
+            
+            <div className="flex items-center justify-center gap-2 max-w-xl mx-auto">
+              {[...Array(totalSteps)].map((_, i) => (
+                <div key={i} className="flex-1 flex items-center">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
+                    i + 1 === step ? 'bg-[#D4AF37] text-black shadow-[0_0_15px_rgba(212,175,55,0.5)]' : 
+                    i + 1 < step ? 'bg-white/20 text-white' : 'bg-white/5 text-gray-500 border border-white/10'
+                  }`}>
+                    {i + 1 < step ? <CheckCircle className="w-4 h-4" /> : i + 1}
+                  </div>
+                  {i < totalSteps - 1 && (
+                    <div className={`flex-1 h-1 mx-2 rounded-full transition-colors duration-300 ${
+                      i + 1 < step ? 'bg-white/20' : 'bg-white/5'
+                    }`} />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Form Area */}
+          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl relative overflow-hidden">
+            <AnimatePresence mode="wait">
               
-              <div className="flex items-center justify-center gap-2 max-w-xl mx-auto">
-                {[...Array(totalSteps)].map((_, i) => (
-                  <div key={i} className="flex-1 flex items-center">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors duration-300 ${
-                      i + 1 === step ? 'bg-[#D4AF37] text-black shadow-[0_0_15px_rgba(212,175,55,0.5)]' : 
-                      i + 1 < step ? 'bg-white/20 text-white' : 'bg-white/5 text-gray-500 border border-white/10'
-                    }`}>
-                      {i + 1 < step ? <CheckCircle className="w-4 h-4" /> : i + 1}
+              {/* STEP 1: EVENT TYPE */}
+              {step === 1 && (
+                <motion.div
+                  key="step1"
+                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                >
+                  <h2 className="text-2xl font-serif font-bold text-white mb-6">What type of event are you planning?</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {['Luxury Beach Wedding', 'Corporate Event', 'Birthday Party', 'Royal Palace Wedding', 'Award Function', 'Haldi Ceremony'].map(type => (
+                      <button key={type} className="p-4 border border-white/10 rounded-xl hover:border-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all text-left group focus:border-[#D4AF37] focus:bg-[#D4AF37]/10">
+                        <div className="w-4 h-4 rounded-full border border-gray-500 group-focus:border-[#D4AF37] group-focus:bg-[#D4AF37] mb-3 transition-colors" />
+                        <span className="text-white font-medium">{type}</span>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STEP 2: DETAILS */}
+              {step === 2 && (
+                <motion.div
+                  key="step2"
+                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <h2 className="text-2xl font-serif font-bold text-white mb-6">Event Details</h2>
+                  
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm text-gray-400 flex items-center gap-2"><CalendarIcon className="w-4 h-4" /> Date</label>
+                      <input type="date" className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-[#D4AF37] outline-none" />
                     </div>
-                    {i < totalSteps - 1 && (
-                      <div className={`flex-1 h-1 mx-2 rounded-full transition-colors duration-300 ${
-                        i + 1 < step ? 'bg-white/20' : 'bg-white/5'
-                      }`} />
-                    )}
+                    <div className="space-y-2">
+                      <label className="text-sm text-gray-400 flex items-center gap-2"><MapPin className="w-4 h-4" /> Location/City</label>
+                      <input type="text" placeholder="e.g. Mumbai, Goa" className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-[#D4AF37] outline-none" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm text-gray-400 flex items-center gap-2"><Users className="w-4 h-4" /> Guest Count</label>
+                      <select className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-[#D4AF37] outline-none appearance-none">
+                        <option>50 - 100</option><option>100 - 300</option><option>300 - 500</option><option>500+</option>
+                      </select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm text-gray-400 flex items-center gap-2"><IndianRupee className="w-4 h-4" /> Estimated Budget</label>
+                      <select className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-[#D4AF37] outline-none appearance-none">
+                        <option>₹1L - ₹5L</option><option>₹5L - ₹15L</option><option>₹15L - ₹50L</option><option>₹50L+</option>
+                      </select>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STEP 3: PREFERENCES */}
+              {step === 3 && (
+                <motion.div
+                  key="step3"
+                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                >
+                  <h2 className="text-2xl font-serif font-bold text-white mb-6">Services Required</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    {['Venue Decoration', 'Catering', 'Photography', 'Videography', 'Entertainment', 'Makeup/Styling', 'Logistics', 'Full Management'].map(service => (
+                      <label key={service} className="flex items-center gap-3 p-3 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5 transition-colors">
+                        <input type="checkbox" className="w-4 h-4 accent-[#D4AF37]" />
+                        <span className="text-sm text-gray-300">{service}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm text-gray-400">Additional Notes</label>
+                    <textarea rows={4} className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-white focus:border-[#D4AF37] outline-none resize-none" placeholder="Tell us more about your vision..."></textarea>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* STEP 4: REVIEW */}
+              {step === 4 && (
+                <motion.div
+                  key="step4"
+                  initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+                >
+                  <h2 className="text-2xl font-serif font-bold text-white mb-6">Review Details</h2>
+                  <div className="bg-black/50 rounded-2xl p-8 space-y-5 border border-white/10 mb-8">
+                    <div className="flex justify-between border-b border-white/5 pb-5">
+                      <span className="text-gray-400">Event Type</span>
+                      <span className="text-white font-medium">Luxury Beach Wedding</span>
+                    </div>
+                    <div className="flex justify-between border-b border-white/5 pb-5">
+                      <span className="text-gray-400">Date & Location</span>
+                      <span className="text-white font-medium">Dec 15, 2026 • Goa</span>
+                    </div>
+                    <div className="flex justify-between border-b border-white/5 pb-5">
+                      <span className="text-gray-400">Budget Estimate</span>
+                      <span className="text-white font-medium">₹15L - ₹50L</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Services</span>
+                      <span className="text-white font-medium text-right max-w-xs">Full Management, Decor, Photo</span>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 text-center">
+                    {selectedPlanner 
+                      ? `By confirming, ${selectedPlanner.company} will review your request and reply shortly.`
+                      : "By confirming, our smart system will broadcast your request to the best matching planners in your area."}
+                  </p>
+                </motion.div>
+              )}
+
+            </AnimatePresence>
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-10 pt-8 border-t border-white/10">
+              <button 
+                onClick={handlePrev}
+                className={`px-6 py-3 font-medium text-white transition-opacity ${step === 1 ? 'opacity-0 pointer-events-none' : 'opacity-100 hover:text-[#D4AF37]'}`}
+              >
+                Back
+              </button>
+              <button 
+                onClick={handleNext}
+                className="px-10 py-4 bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-black font-bold rounded-full hover:shadow-[0_0_30px_rgba(212,175,55,0.4)] flex items-center gap-2 transition-all transform hover:scale-105"
+              >
+                {step === totalSteps ? 'Confirm Request' : 'Next Step'} <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        /* SUCCESS SCREEN */
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+          className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden max-w-3xl mx-auto"
+        >
+          {selectedPlanner ? (
+            <div className="text-center">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/20 via-transparent to-transparent opacity-60" />
+              <div className="w-24 h-24 bg-[#D4AF37] rounded-full mx-auto mb-8 flex items-center justify-center shadow-[0_0_30px_rgba(212,175,55,0.5)] relative z-10">
+                <CheckCircle className="w-12 h-12 text-black" />
+              </div>
+              <h2 className="text-4xl font-serif font-bold text-white mb-4 relative z-10">Request Sent Directly!</h2>
+              <p className="text-gray-300 text-lg mb-10 relative z-10">
+                Your event details have been sent directly to <strong>{selectedPlanner.company}</strong>. They will review your requirements and respond with a customized quotation shortly.
+              </p>
+            </div>
+          ) : (
+            <div>
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#6A38FF]/20 via-transparent to-transparent opacity-60 pointer-events-none" />
+              
+              <div className="text-center mb-10 relative z-10">
+                <div className="w-20 h-20 bg-[#6A38FF] rounded-full mx-auto mb-6 flex items-center justify-center shadow-[0_0_30px_rgba(106,56,255,0.5)]">
+                  <Sparkles className="w-10 h-10 text-white" />
+                </div>
+                <h2 className="text-3xl font-serif font-bold text-white mb-3">Request Broadcasted!</h2>
+                <p className="text-gray-300">We found 12 premium planners matching your criteria. Here are your top matches based on our smart algorithm:</p>
+              </div>
+
+              <div className="space-y-4 mb-10 relative z-10">
+                {bestMatches.map((planner, i) => (
+                  <div key={planner.id} className="bg-black/50 border border-white/10 rounded-xl p-4 flex items-center gap-4">
+                    <img src={planner.image} className="w-16 h-16 rounded-lg object-cover" alt={planner.company} />
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="font-bold text-white">{planner.company}</h4>
+                        {i === 0 && <span className="px-2 py-0.5 bg-[#D4AF37] text-black text-[10px] font-bold rounded uppercase">Best Match</span>}
+                      </div>
+                      <div className="text-sm text-gray-400 flex gap-4">
+                        <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {planner.city}</span>
+                        <span className="flex items-center gap-1"><Users className="w-3 h-3" /> {planner.completedEvents}+ Events</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xl font-bold text-green-400">{planner.matchScore}%</div>
+                      <div className="text-xs text-gray-500 uppercase">Match Score</div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Form Area */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl relative overflow-hidden">
-              <AnimatePresence mode="wait">
-                
-                {/* STEP 1: EVENT TYPE */}
-                {step === 1 && (
-                  <motion.div
-                    key="step1"
-                    initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  >
-                    <h2 className="text-2xl font-serif font-bold text-white mb-6">What type of event are you planning?</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {['Wedding', 'Birthday', 'Corporate', 'Anniversary', 'Baby Shower', 'Other'].map(type => (
-                        <button key={type} className="p-4 border border-white/10 rounded-xl hover:border-[#D4AF37] hover:bg-white/5 transition-all text-left group focus:border-[#D4AF37] focus:bg-white/10">
-                          <div className="w-4 h-4 rounded-full border border-gray-500 group-focus:border-[#D4AF37] group-focus:bg-[#D4AF37] mb-3 transition-colors" />
-                          <span className="text-white font-medium">{type}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* STEP 2: DETAILS */}
-                {step === 2 && (
-                  <motion.div
-                    key="step2"
-                    initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                    className="space-y-6"
-                  >
-                    <h2 className="text-2xl font-serif font-bold text-white mb-6">Event Details</h2>
-                    
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <label className="text-sm text-gray-400 flex items-center gap-2"><CalendarIcon className="w-4 h-4" /> Date</label>
-                        <input type="date" className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-white focus:border-[#D4AF37] outline-none" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm text-gray-400 flex items-center gap-2"><MapPin className="w-4 h-4" /> Location/City</label>
-                        <input type="text" placeholder="e.g. Mumbai, Goa" className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-white focus:border-[#D4AF37] outline-none" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm text-gray-400 flex items-center gap-2"><Users className="w-4 h-4" /> Guest Count</label>
-                        <select className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-white focus:border-[#D4AF37] outline-none appearance-none">
-                          <option>50 - 100</option><option>100 - 300</option><option>300 - 500</option><option>500+</option>
-                        </select>
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm text-gray-400 flex items-center gap-2"><IndianRupee className="w-4 h-4" /> Estimated Budget</label>
-                        <select className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-white focus:border-[#D4AF37] outline-none appearance-none">
-                          <option>₹1L - ₹5L</option><option>₹5L - ₹15L</option><option>₹15L - ₹50L</option><option>₹50L+</option>
-                        </select>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* STEP 3: PREFERENCES */}
-                {step === 3 && (
-                  <motion.div
-                    key="step3"
-                    initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  >
-                    <h2 className="text-2xl font-serif font-bold text-white mb-6">Services Required</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                      {['Venue Decoration', 'Catering', 'Photography', 'Videography', 'Entertainment', 'Makeup/Styling', 'Logistics', 'Full Management'].map(service => (
-                        <label key={service} className="flex items-center gap-3 p-3 border border-white/10 rounded-xl cursor-pointer hover:bg-white/5">
-                          <input type="checkbox" className="w-4 h-4 accent-[#D4AF37]" />
-                          <span className="text-sm text-gray-300">{service}</span>
-                        </label>
-                      ))}
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm text-gray-400">Additional Notes</label>
-                      <textarea rows={4} className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-white focus:border-[#D4AF37] outline-none resize-none" placeholder="Tell us more about your vision..."></textarea>
-                    </div>
-                  </motion.div>
-                )}
-
-                {/* STEP 4: REVIEW */}
-                {step === 4 && (
-                  <motion.div
-                    key="step4"
-                    initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
-                  >
-                    <h2 className="text-2xl font-serif font-bold text-white mb-6">Review Details</h2>
-                    <div className="bg-[#111] rounded-xl p-6 space-y-4 border border-white/10 mb-6">
-                      <div className="flex justify-between border-b border-white/5 pb-4">
-                        <span className="text-gray-400">Event Type</span>
-                        <span className="text-white font-medium">Wedding</span>
-                      </div>
-                      <div className="flex justify-between border-b border-white/5 pb-4">
-                        <span className="text-gray-400">Date & Location</span>
-                        <span className="text-white font-medium">Dec 15, 2026 • Mumbai</span>
-                      </div>
-                      <div className="flex justify-between border-b border-white/5 pb-4">
-                        <span className="text-gray-400">Budget Estimate</span>
-                        <span className="text-white font-medium">₹15L - ₹50L</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Services</span>
-                        <span className="text-white font-medium text-right">Full Management, Decor, Photo</span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-500 text-center">By confirming, our top matching planners will review your request and contact you shortly.</p>
-                  </motion.div>
-                )}
-
-              </AnimatePresence>
-
-              {/* Navigation Buttons */}
-              <div className="flex justify-between mt-10 pt-6 border-t border-white/10">
-                <button 
-                  onClick={handlePrev}
-                  className={`px-6 py-3 font-medium text-white transition-opacity ${step === 1 ? 'opacity-0 pointer-events-none' : 'opacity-100 hover:text-[#D4AF37]'}`}
-                >
-                  Back
-                </button>
-                <button 
-                  onClick={handleNext}
-                  className="px-8 py-3 bg-gradient-to-r from-[#D4AF37] to-[#F3E5AB] text-black font-bold rounded-full hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] flex items-center gap-2 transition-all"
-                >
-                  {step === totalSteps ? 'Confirm Request' : 'Next Step'} <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </>
-        ) : (
-          /* SUCCESS SCREEN */
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/5 backdrop-blur-xl border border-[#D4AF37]/30 rounded-3xl p-12 text-center shadow-[0_0_50px_rgba(212,175,55,0.15)] relative overflow-hidden max-w-2xl mx-auto mt-20"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#D4AF37]/20 via-transparent to-transparent opacity-60" />
-            
-            <div className="w-24 h-24 bg-[#D4AF37] rounded-full mx-auto mb-8 flex items-center justify-center shadow-[0_0_30px_rgba(212,175,55,0.5)] relative z-10">
-              <CheckCircle className="w-12 h-12 text-black" />
-            </div>
-            
-            <h2 className="text-4xl font-serif font-bold text-white mb-4 relative z-10">Request Received!</h2>
-            <p className="text-gray-300 text-lg mb-10 relative z-10">
-              Your event details have been sent to our premium planners. You will receive tailored proposals in your dashboard within 24 hours.
-            </p>
-            
-            <Link href="/" className="inline-block px-10 py-4 border border-white/20 text-white font-bold rounded-full hover:bg-white/10 transition-colors relative z-10">
-              Return to Home
+          )}
+          
+          <div className="text-center relative z-10">
+            <Link href="/dashboard/customer" className="inline-block px-10 py-4 bg-white/10 border border-white/20 text-white font-bold rounded-full hover:bg-white/20 transition-colors">
+              Go to Dashboard
             </Link>
-          </motion.div>
-        )}
-      </div>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
+export default function BookingPage() {
+  return (
+    <main className="min-h-screen bg-[#0B0B0B] pt-32 pb-24">
+      <Suspense fallback={
+        <div className="flex justify-center pt-32">
+          <div className="w-16 h-16 border-t-2 border-[#D4AF37] rounded-full animate-spin" />
+        </div>
+      }>
+        <BookingForm />
+      </Suspense>
     </main>
   );
 }
