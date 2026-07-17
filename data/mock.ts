@@ -1,3 +1,10 @@
+export const statistics = [
+  { label: "Events Planned", value: 5000, suffix: "+", icon: "🎉" },
+  { label: "Happy Clients", value: 12000, suffix: "+", icon: "😊" },
+  { label: "Cities Covered", value: 50, suffix: "+", icon: "📍" },
+  { label: "Expert Planners", value: 300, suffix: "+", icon: "⭐" }
+];
+
 export interface Package {
   name: string;
   price: number;
@@ -16,6 +23,15 @@ export interface PortfolioItem {
   beforeAfterImages?: { before: string; after: string }[];
 }
 
+export interface Category {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  gradient: string;
+  count: number;
+}
+
 export interface Planner {
   id: string;
   company: string;
@@ -23,6 +39,8 @@ export interface Planner {
   rating: number;
   reviewCount: number;
   completedEvents: number;
+  yearsExperience: number;
+  startingPrice: number;
   city: string;
   specializations: string[];
   about: string;
@@ -59,6 +77,15 @@ export const galleryCategories = [
   "Music Concerts",
   "Fashion Shows",
   "Award Functions"
+];
+
+export const categories: Category[] = [
+  { id: "wedding", name: "Luxury Weddings", description: "Grand ceremonies with world-class decor, from beach to palace venues.", icon: "💍", gradient: "from-[#D4AF37] to-[#F3E5AB]", count: 120 },
+  { id: "corporate", name: "Corporate Events", description: "Professional conferences, galas, product launches, and award nights.", icon: "🏢", gradient: "from-[#00c6ff] to-[#0072ff]", count: 85 },
+  { id: "birthday", name: "Birthday Parties", description: "From kids' parties to luxurious milestone celebrations.", icon: "🎂", gradient: "from-[#f093fb] to-[#f5576c]", count: 200 },
+  { id: "cultural", name: "Cultural Programs", description: "Traditional ceremonies, festive celebrations, and cultural showcases.", icon: "🎭", gradient: "from-[#ff7e5f] to-[#feb47b]", count: 60 },
+  { id: "concert", name: "Concerts & Music", description: "Electric nights with top artists and unforgettable stage experiences.", icon: "🎵", gradient: "from-[#833ab4] via-[#fd1d1d] to-[#fcb045]", count: 45 },
+  { id: "baby-shower", name: "Baby Showers & More", description: "Elegant intimate events for life's most joyful milestones.", icon: "🌸", gradient: "from-[#11998e] to-[#38ef7d]", count: 90 }
 ];
 
 const unsplash = (query: string, width = 1920, height = 1080) => `https://source.unsplash.com/${width}x${height}/?${query}`;
@@ -134,6 +161,8 @@ export const planners: Planner[] = [
     rating: 4.9,
     reviewCount: 128,
     completedEvents: 300,
+    yearsExperience: 12,
+    startingPrice: 1500000,
     city: "Udaipur",
     specializations: ["Royal Palace Weddings", "Destination Weddings", "Haldi Ceremony"],
     about: "Specializing in crafting majestic, larger-than-life experiences in India's most historic palaces. We blend traditional grandeur with modern luxury.",
@@ -150,7 +179,7 @@ export const planners: Planner[] = [
         title: "The Mewar Extravaganza",
         category: "Royal Palace Weddings",
         location: "Taj Lake Palace",
-        description: "A 3-day royal affair.",
+        description: "A 3-day royal affair with over 800 guests.",
         images: [unsplash("palace,wedding"), unsplash("wedding,mandap")],
         beforeAfterImages: [{ before: unsplash("empty,hall"), after: unsplash("decorated,wedding,hall") }]
       }
@@ -168,6 +197,8 @@ export const planners: Planner[] = [
     rating: 4.8,
     reviewCount: 95,
     completedEvents: 210,
+    yearsExperience: 9,
+    startingPrice: 500000,
     city: "Mumbai",
     specializations: ["Corporate Events", "Award Functions", "Luxury Birthday Celebrations"],
     about: "The go-to agency for high-profile corporate summits, glamorous award nights, and milestone birthdays.",
@@ -183,7 +214,7 @@ export const planners: Planner[] = [
         title: "Tech Innovators Awards",
         category: "Award Functions",
         location: "Jio World Centre",
-        description: "Recognizing the top tech talent.",
+        description: "Recognizing the top tech talent of the year.",
         images: [unsplash("award,stage"), unsplash("corporate,gala")]
       }
     ],
@@ -199,6 +230,8 @@ export const planners: Planner[] = [
     rating: 4.7,
     reviewCount: 82,
     completedEvents: 150,
+    yearsExperience: 7,
+    startingPrice: 800000,
     city: "Goa",
     specializations: ["Luxury Beach Weddings", "Music Concerts", "Sangeet Night"],
     about: "Masters of creating breathtaking beachfront celebrations and electrifying music events under the stars.",
@@ -269,24 +302,50 @@ export const testimonials = [
     id: "t1",
     name: "Anjali & Rahul",
     role: "Happy Couple",
+    event: "Royal Palace Wedding",
+    planner: "Royal Celebrations",
     image: "https://source.unsplash.com/100x100/?indian,couple,wedding",
-    content: "EventLuxe made our dream wedding a reality. The planners we found here were incredibly professional and brought our vision to life beautifully.",
+    comment: "EventLuxe made our dream wedding a reality. The planners we found here were incredibly professional and brought our vision to life beautifully.",
     rating: 5
   },
   {
     id: "t2",
     name: "Vikram Singh",
     role: "Corporate Director",
+    event: "Annual Tech Summit",
+    planner: "Dream Events Co.",
     image: "https://source.unsplash.com/100x100/?indian,man,suit",
-    content: "We used EventLuxe for our annual corporate gala. The seamless booking process and top-tier event managers exceeded our expectations.",
+    comment: "We used EventLuxe for our annual corporate gala. The seamless booking process and top-tier event managers exceeded our expectations.",
     rating: 5
   },
   {
     id: "t3",
     name: "Priya Patel",
     role: "Birthday Organizer",
+    event: "Sweet Sixteen Celebration",
+    planner: "Elite Gatherings",
     image: "https://source.unsplash.com/100x100/?indian,woman,smiling",
-    content: "Finding a planner for my daughter's sweet sixteen was so stressful until I found this platform. Highly recommended!",
+    comment: "Finding a planner for my daughter's sweet sixteen was so stressful until I found this platform. Highly recommended!",
     rating: 4
+  },
+  {
+    id: "t4",
+    name: "Rohan Mehta",
+    role: "Groom",
+    event: "Beachside Sangeet Night",
+    planner: "Elite Gatherings",
+    image: "https://source.unsplash.com/100x100/?indian,groom",
+    comment: "Our sangeet was the talk of the town! Every single detail was handled perfectly. Thank you EventLuxe!",
+    rating: 5
+  },
+  {
+    id: "t5",
+    name: "Sunita Rao",
+    role: "Event Head",
+    event: "National Award Function",
+    planner: "Dream Events Co.",
+    image: "https://source.unsplash.com/100x100/?indian,woman,corporate",
+    comment: "A flawless award night with 700+ guests. Impeccable staging, lighting, and hospitality. Would absolutely use again.",
+    rating: 5
   }
 ];

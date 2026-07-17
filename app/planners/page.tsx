@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from 'react';
 import { planners } from '@/data/mock';
 import PlannerCard from '@/components/ui/PlannerCard';
 import { Search, Filter } from 'lucide-react';
