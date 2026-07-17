@@ -148,7 +148,7 @@ export default async function PlannerProfilePage({ params }: { params: Promise<{
             {/* Cinematic Highlights Video Section Placeholder */}
             {planner.droneFootageAvailable && (
               <section className="relative rounded-3xl overflow-hidden bg-[#111] p-12 text-center border border-white/10 group cursor-pointer">
-                <div className="absolute inset-0 bg-[url('https://source.unsplash.com/1920x1080/?drone,wedding,event')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity" />
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1505232458627-539c1a265a6d?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity" />
                 <div className="relative z-10 flex flex-col items-center">
                   <div className="w-20 h-20 bg-[#D4AF37]/20 backdrop-blur border border-[#D4AF37] rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <Video className="w-8 h-8 text-[#D4AF37]" />

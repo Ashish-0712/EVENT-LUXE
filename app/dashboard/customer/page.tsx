@@ -95,7 +95,7 @@ export default function CustomerDashboard() {
                 <h2 className="text-xl font-serif font-bold text-white mb-6">Confirmed Bookings</h2>
                 <div className="bg-gradient-to-br from-[#151515] to-[#0a0a0a] border border-white/10 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 blur-[80px] rounded-full pointer-events-none" />
-                  <div className="w-full md:w-48 h-48 rounded-xl bg-cover bg-center shrink-0 border border-white/10" style={{ backgroundImage: "url('https://source.unsplash.com/random/400x400/?wedding')" }} />
+                  <div className="w-full md:w-48 h-48 rounded-xl bg-cover bg-center shrink-0 border border-white/10" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80')" }} />
                   <div className="flex-1 z-10">
                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 text-xs font-bold rounded-full mb-3 uppercase tracking-wider"><CheckCircle className="w-3 h-3" /> Confirmed</div>
                     <h3 className="text-3xl font-serif font-bold text-white mb-2">The Grand Wedding</h3>

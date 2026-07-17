@@ -56,7 +56,7 @@ export default function GalleryPreview() {
                 {/* Image Placeholder with Parallax effect on hover */}
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
-                  style={{ backgroundImage: `url('https://source.unsplash.com/random/800x${isTall ? 1000 : 800}/?wedding,party,luxury,${index}')` }}
+                  style={{ backgroundImage: `url('${item.image}')` }}
                 />
                 
                 {/* Dark Overlay that fades on hover */}

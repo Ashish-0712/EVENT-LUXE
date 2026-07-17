@@ -19,7 +19,7 @@ export default function PlannerCard({ planner, index }: PlannerCardProps) {
       <div className="h-48 w-full bg-gradient-to-br from-gray-800 to-black relative overflow-hidden">
         {/* Placeholder for planner image */}
         <div className="absolute inset-0 bg-cover bg-center opacity-40 transition-transform duration-700 group-hover:scale-110" 
-             style={{ backgroundImage: `url('https://source.unsplash.com/random/800x600/?wedding,event,${index}')` }} />
+             style={{ backgroundImage: `url('${planner.image}')` }} />
         
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0B] via-transparent to-transparent" />

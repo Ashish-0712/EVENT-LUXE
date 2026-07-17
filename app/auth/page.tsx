@@ -25,7 +25,7 @@ export default function AuthPage() {
               key="dealer-bg"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url('https://source.unsplash.com/random/1080x1920/?stage,concert,lights')" }}
+              style={{ backgroundImage: "url('https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1080&q=80')" }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-[#0B0B0B] via-[#0B0B0B]/80 to-transparent md:bg-gradient-to-l" />
             </motion.div>
@@ -34,7 +34,7 @@ export default function AuthPage() {
               key="customer-bg"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}
               className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: "url('https://source.unsplash.com/random/1080x1920/?wedding,celebration')" }}
+              style={{ backgroundImage: "url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1080&q=80')" }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0B0B0B]/80 to-[#0B0B0B] md:bg-gradient-to-r" />
             </motion.div>

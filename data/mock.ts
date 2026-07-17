@@ -1,10 +1,3 @@
-export const statistics = [
-  { label: "Events Planned", value: 5000, suffix: "+", icon: "🎉" },
-  { label: "Happy Clients", value: 12000, suffix: "+", icon: "😊" },
-  { label: "Cities Covered", value: 50, suffix: "+", icon: "📍" },
-  { label: "Expert Planners", value: 300, suffix: "+", icon: "⭐" }
-];
-
 export interface Package {
   name: string;
   price: number;
@@ -88,8 +81,7 @@ export const categories: Category[] = [
   { id: "baby-shower", name: "Baby Showers & More", description: "Elegant intimate events for life's most joyful milestones.", icon: "🌸", gradient: "from-[#11998e] to-[#38ef7d]", count: 90 }
 ];
 
-const unsplash = (query: string, width = 1920, height = 1080) => `https://source.unsplash.com/${width}x${height}/?${query}`;
-
+// Direct working high-quality Unsplash URLs
 export const galleryEvents = [
   {
     id: "g1",
@@ -97,8 +89,11 @@ export const galleryEvents = [
     category: "Luxury Beach Weddings",
     location: "Goa, India",
     description: "An ethereal beach wedding as the sun dipped below the horizon.",
-    image: unsplash("beach,wedding,luxury"),
-    images: [unsplash("beach,wedding,sunset"), unsplash("beach,wedding,decor")],
+    image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519225495810-7517c319b53b?auto=format&fit=crop&w=1200&q=80"
+    ],
     gradient: "from-[#ff7e5f] to-[#feb47b]"
   },
   {
@@ -107,8 +102,11 @@ export const galleryEvents = [
     category: "Royal Palace Weddings",
     location: "Udaipur, India",
     description: "A grand celebration reflecting centuries of royal heritage.",
-    image: unsplash("palace,wedding,royal"),
-    images: [unsplash("palace,wedding"), unsplash("royal,decor,wedding")],
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1544078751-58feb2d78f74?auto=format&fit=crop&w=1200&q=80"
+    ],
     gradient: "from-[#8E2DE2] to-[#4A00E0]"
   },
   {
@@ -117,8 +115,11 @@ export const galleryEvents = [
     category: "Haldi Ceremony",
     location: "Jaipur, India",
     description: "A joyous splash of yellow and floral extravagance.",
-    image: unsplash("haldi,wedding,indian"),
-    images: [unsplash("yellow,flowers,wedding"), unsplash("haldi,ceremony")],
+    image: "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=1200&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1607190074257-dd4b7af0309f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1591604466107-ec97de577aff?auto=format&fit=crop&w=1200&q=80"
+    ],
     gradient: "from-[#f12711] to-[#f5af19]"
   },
   {
@@ -127,8 +128,11 @@ export const galleryEvents = [
     category: "Corporate Events",
     location: "Bangalore, India",
     description: "A state-of-the-art corporate gathering for 1000+ industry leaders.",
-    image: unsplash("corporate,event,conference"),
-    images: [unsplash("conference,stage"), unsplash("corporate,networking")],
+    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80"
+    ],
     gradient: "from-[#00c6ff] to-[#0072ff]"
   },
   {
@@ -137,8 +141,11 @@ export const galleryEvents = [
     category: "Music Concerts",
     location: "Mumbai, India",
     description: "A high-octane musical night featuring top artists and laser shows.",
-    image: unsplash("concert,stage,lights"),
-    images: [unsplash("concert,crowd"), unsplash("laser,show,concert")],
+    image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80"
+    ],
     gradient: "from-[#833ab4] via-[#fd1d1d] to-[#fcb045]"
   },
   {
@@ -147,8 +154,11 @@ export const galleryEvents = [
     category: "Luxury Birthday Celebrations",
     location: "Delhi, India",
     description: "A milestone birthday set in a transformed magical garden.",
-    image: unsplash("birthday,luxury,garden"),
-    images: [unsplash("birthday,decor"), unsplash("luxury,party")],
+    image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80"
+    ],
     gradient: "from-[#11998e] to-[#38ef7d]"
   }
 ];
@@ -167,7 +177,7 @@ export const planners: Planner[] = [
     specializations: ["Royal Palace Weddings", "Destination Weddings", "Haldi Ceremony"],
     about: "Specializing in crafting majestic, larger-than-life experiences in India's most historic palaces. We blend traditional grandeur with modern luxury.",
     verified: true,
-    image: unsplash("wedding,planner,portrait"),
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
     awards: ["Best Destination Planner 2025", "Vogue Wedding of the Year"],
     availableDates: ["2026-11-15T00:00:00Z", "2026-12-01T00:00:00Z"],
     droneFootageAvailable: true,
@@ -180,8 +190,16 @@ export const planners: Planner[] = [
         category: "Royal Palace Weddings",
         location: "Taj Lake Palace",
         description: "A 3-day royal affair with over 800 guests.",
-        images: [unsplash("palace,wedding"), unsplash("wedding,mandap")],
-        beforeAfterImages: [{ before: unsplash("empty,hall"), after: unsplash("decorated,wedding,hall") }]
+        images: [
+          "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1544078751-58feb2d78f74?auto=format&fit=crop&w=1200&q=80"
+        ],
+        beforeAfterImages: [
+          {
+            before: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=800&q=80",
+            after: "https://images.unsplash.com/photo-1519225495810-7517c319b53b?auto=format&fit=crop&w=800&q=80"
+          }
+        ]
       }
     ],
     packages: [
@@ -203,7 +221,7 @@ export const planners: Planner[] = [
     specializations: ["Corporate Events", "Award Functions", "Luxury Birthday Celebrations"],
     about: "The go-to agency for high-profile corporate summits, glamorous award nights, and milestone birthdays.",
     verified: true,
-    image: unsplash("corporate,planner"),
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
     availableDates: ["2026-10-20T00:00:00Z", "2026-10-25T00:00:00Z"],
     droneFootageAvailable: false,
     decorationThemes: ["Cyberpunk Corporate", "Classic Gala", "Neon Nights"],
@@ -215,7 +233,10 @@ export const planners: Planner[] = [
         category: "Award Functions",
         location: "Jio World Centre",
         description: "Recognizing the top tech talent of the year.",
-        images: [unsplash("award,stage"), unsplash("corporate,gala")]
+        images: [
+          "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80"
+        ]
       }
     ],
     packages: [
@@ -236,7 +257,7 @@ export const planners: Planner[] = [
     specializations: ["Luxury Beach Weddings", "Music Concerts", "Sangeet Night"],
     about: "Masters of creating breathtaking beachfront celebrations and electrifying music events under the stars.",
     verified: true,
-    image: unsplash("beach,planner"),
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80",
     availableDates: ["2026-12-10T00:00:00Z", "2026-12-25T00:00:00Z"],
     droneFootageAvailable: true,
     decorationThemes: ["Boho Chic", "Tropical Paradise", "Sunset Glow"],
@@ -248,8 +269,16 @@ export const planners: Planner[] = [
         category: "Luxury Beach Weddings",
         location: "South Goa",
         description: "A private beach wedding with bohemian decor.",
-        images: [unsplash("beach,wedding,sunset"), unsplash("boho,wedding,decor")],
-        beforeAfterImages: [{ before: unsplash("empty,beach"), after: unsplash("decorated,beach,wedding") }]
+        images: [
+          "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=1200&q=80"
+        ],
+        beforeAfterImages: [
+          {
+            before: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+            after: "https://images.unsplash.com/photo-1519225495810-7517c319b53b?auto=format&fit=crop&w=800&q=80"
+          }
+        ]
       }
     ],
     packages: [
@@ -304,7 +333,7 @@ export const testimonials = [
     role: "Happy Couple",
     event: "Royal Palace Wedding",
     planner: "Royal Celebrations",
-    image: "https://source.unsplash.com/100x100/?indian,couple,wedding",
+    image: "https://images.unsplash.com/photo-1621184455862-c163dfb30e0f?auto=format&fit=crop&w=100&q=80",
     comment: "EventLuxe made our dream wedding a reality. The planners we found here were incredibly professional and brought our vision to life beautifully.",
     rating: 5
   },
@@ -314,7 +343,7 @@ export const testimonials = [
     role: "Corporate Director",
     event: "Annual Tech Summit",
     planner: "Dream Events Co.",
-    image: "https://source.unsplash.com/100x100/?indian,man,suit",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80",
     comment: "We used EventLuxe for our annual corporate gala. The seamless booking process and top-tier event managers exceeded our expectations.",
     rating: 5
   },
@@ -324,7 +353,7 @@ export const testimonials = [
     role: "Birthday Organizer",
     event: "Sweet Sixteen Celebration",
     planner: "Elite Gatherings",
-    image: "https://source.unsplash.com/100x100/?indian,woman,smiling",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80",
     comment: "Finding a planner for my daughter's sweet sixteen was so stressful until I found this platform. Highly recommended!",
     rating: 4
   },
@@ -334,7 +363,7 @@ export const testimonials = [
     role: "Groom",
     event: "Beachside Sangeet Night",
     planner: "Elite Gatherings",
-    image: "https://source.unsplash.com/100x100/?indian,groom",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&q=80",
     comment: "Our sangeet was the talk of the town! Every single detail was handled perfectly. Thank you EventLuxe!",
     rating: 5
   },
@@ -344,8 +373,15 @@ export const testimonials = [
     role: "Event Head",
     event: "National Award Function",
     planner: "Dream Events Co.",
-    image: "https://source.unsplash.com/100x100/?indian,woman,corporate",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80",
     comment: "A flawless award night with 700+ guests. Impeccable staging, lighting, and hospitality. Would absolutely use again.",
     rating: 5
   }
+];
+
+export const statistics = [
+  { label: "Events Planned", value: 5000, suffix: "+", icon: "🎉" },
+  { label: "Happy Clients", value: 12000, suffix: "+", icon: "😊" },
+  { label: "Cities Covered", value: 50, suffix: "+", icon: "📍" },
+  { label: "Expert Planners", value: 300, suffix: "+", icon: "⭐" }
 ];
