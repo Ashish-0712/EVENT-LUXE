@@ -4,8 +4,9 @@ import { Star, MapPin, CheckCircle, Award, CalendarDays, ChevronRight } from 'lu
 import { formatCurrency } from '@/lib/utils';
 import Link from 'next/link';
 
-export default function PlannerProfilePage({ params }: { params: { id: string } }) {
-  const planner = planners.find(p => p.id === params.id);
+export default async function PlannerProfilePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const planner = planners.find(p => p.id === id);
   
   if (!planner) {
     notFound();
