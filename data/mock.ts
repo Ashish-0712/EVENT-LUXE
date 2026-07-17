@@ -259,3 +259,10 @@ export const mockMarketplaceRequests = [
     requirements: ["Yellow Floral Theme", "Live Dhol", "Traditional Catering"]
   }
 ];
+
+export const bookingSteps = [
+  { step: 1, title: "Tell Us Your Vision", description: "Share your event details, budget, and preferences through our smart form.", icon: "??" },
+  { step: 2, title: "Get Matched", description: "Our AI matches you with the perfect premium planners for your specific needs.", icon: "?" },
+  { step: 3, title: "Compare & Select", description: "Review customized quotations, portfolios, and chat with planners.", icon: "??" },
+  { step: 4, title: "Celebrate", description: "Relax and enjoy your spectacular event while the experts handle everything.", icon: "??" }
+];
