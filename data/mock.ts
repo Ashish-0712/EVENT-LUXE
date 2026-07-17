@@ -11,8 +11,8 @@ export interface PortfolioItem {
   category: string;
   location: string;
   description: string;
-  images: string[]; // High quality Unsplash URLs
-  videoUrl?: string; // Optional mockup video URL
+  images: string[];
+  videoUrl?: string;
   beforeAfterImages?: { before: string; after: string }[];
 }
 
@@ -29,7 +29,7 @@ export interface Planner {
   packages: Package[];
   verified: boolean;
   image: string;
-  availableDates: string[]; // ISO strings
+  availableDates: string[];
   awards?: string[];
   portfolio: PortfolioItem[];
   droneFootageAvailable: boolean;
@@ -61,7 +61,6 @@ export const galleryCategories = [
   "Award Functions"
 ];
 
-// Helper to generate unsplash queries
 const unsplash = (query: string, width = 1920, height = 1080) => `https://source.unsplash.com/${width}x${height}/?${query}`;
 
 export const galleryEvents = [
@@ -125,7 +124,6 @@ export const galleryEvents = [
     images: [unsplash("birthday,decor"), unsplash("luxury,party")],
     gradient: "from-[#11998e] to-[#38ef7d]"
   }
-  // We can scale this to 50+ items in production. Keeping 6 for initial mock to prevent file bloat.
 ];
 
 export const planners: Planner[] = [
@@ -236,7 +234,6 @@ export const searchSuggestions = [
   "Award Function Organizers"
 ];
 
-// Mock Dealer Dashboard Data (Simulating new marketplace requests)
 export const mockMarketplaceRequests = [
   {
     id: "req-1",
@@ -261,8 +258,35 @@ export const mockMarketplaceRequests = [
 ];
 
 export const bookingSteps = [
-  { step: 1, title: "Tell Us Your Vision", description: "Share your event details, budget, and preferences through our smart form.", icon: "??" },
-  { step: 2, title: "Get Matched", description: "Our AI matches you with the perfect premium planners for your specific needs.", icon: "?" },
-  { step: 3, title: "Compare & Select", description: "Review customized quotations, portfolios, and chat with planners.", icon: "??" },
-  { step: 4, title: "Celebrate", description: "Relax and enjoy your spectacular event while the experts handle everything.", icon: "??" }
+  { step: 1, title: "Tell Us Your Vision", description: "Share your event details, budget, and preferences through our smart form.", icon: "📝" },
+  { step: 2, title: "Get Matched", description: "Our AI matches you with the perfect premium planners for your specific needs.", icon: "✨" },
+  { step: 3, title: "Compare & Select", description: "Review customized quotations, portfolios, and chat with planners.", icon: "🤝" },
+  { step: 4, title: "Celebrate", description: "Relax and enjoy your spectacular event while the experts handle everything.", icon: "🥂" }
+];
+
+export const testimonials = [
+  {
+    id: "t1",
+    name: "Anjali & Rahul",
+    role: "Happy Couple",
+    image: "https://source.unsplash.com/100x100/?indian,couple,wedding",
+    content: "EventLuxe made our dream wedding a reality. The planners we found here were incredibly professional and brought our vision to life beautifully.",
+    rating: 5
+  },
+  {
+    id: "t2",
+    name: "Vikram Singh",
+    role: "Corporate Director",
+    image: "https://source.unsplash.com/100x100/?indian,man,suit",
+    content: "We used EventLuxe for our annual corporate gala. The seamless booking process and top-tier event managers exceeded our expectations.",
+    rating: 5
+  },
+  {
+    id: "t3",
+    name: "Priya Patel",
+    role: "Birthday Organizer",
+    image: "https://source.unsplash.com/100x100/?indian,woman,smiling",
+    content: "Finding a planner for my daughter's sweet sixteen was so stressful until I found this platform. Highly recommended!",
+    rating: 4
+  }
 ];
