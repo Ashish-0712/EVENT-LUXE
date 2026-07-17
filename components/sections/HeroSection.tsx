@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from 'next/dynamic';
 import { motion } from 'motion/react';
 import Link from 'next/link';
